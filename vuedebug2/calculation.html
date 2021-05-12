@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>跑马灯效果</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		#outer{
+			width: 200px;
+			height: 200px;
+			background-color: red;
+		}
+		#inner{
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="n1">
+		<select v-model='opt'>
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		<input type="text" v-model="n2">
+		<input type="button" value="=" @click='calculation'>
+		<input type="text" v-model="result">
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				n1:0,
+				n2:0,
+				result:0,
+				opt:'+'
+			},
+			methods:{
+				calculation(){
+					// switch(this.opt){
+					// 	case "+":
+					// 		this.result = parseInt(this.n1) + parseInt(this.n2)
+					// 		break
+					// 	case "-":
+					// 		this.result = parseInt(this.n1) - parseInt(this.n2)
+					// 		break
+					// 	case "*":
+					// 		this.result = parseInt(this.n1) * parseInt(this.n2)
+					// 		break
+					// 	case "/":
+					// 		this.result = parseInt(this.n1) / parseInt(this.n2)
+					// 		break
+					// }
+					var codestr = parseInt(this.n1) + this.opt + parseInt(this.n2)
+					this.result = 
+					eval(codestr)
+				},
+				startscroll(){
+					if (!this.interval) {
+						console.log('start a interval...')
+						this.interval = setInterval(this.lang,200)
+					}
+				},
+				stopscroll(){
+					clearInterval(this.interval)
+					this.interval=null
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

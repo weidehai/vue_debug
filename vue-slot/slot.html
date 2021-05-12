@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <div id="example">
+      <my-slot>
+        <div slot-scope="scope">
+          我会被放到插槽里,我可以访问子组件的变量{{scope.nickname}}
+        </div>
+      </my-slot>
+      <myslot2>
+        <div slot-scope="scope">
+          我会被放到插槽里,我是用函数式编程的作用域插槽，我可以访问子组件的变量{{scope.text}}
+        </div>
+      </myslot2>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      Vue.component("my-slot", {
+        data: function () {
+          return {
+            count: 0,
+          };
+        },
+        created() {
+          console.log(this.$slots);
+          console.log(this.$scopedSlots);
+        },
+        mounted() {
+          console.log(this.$slots);
+          console.log(this.$scopedSlots);
+        },
+        template: `<div><p>weidehai</p><slot :nickname="'wdh'"></slot></div>`, //这样是吧作用插槽写在了模板中，由vue的编译器来编译模板
+        //还有一种方法就是用编程式，也就是函数式的方式来定义作用域插槽
+      });
+      Vue.component("myslot2", {
+        render: function (createElement) {
+          var he = createElement("div", {
+            domProps: { innerHTML: "this child div" },
+          });
+          return createElement("div", [
+            he,
+            this.$scopedSlots.default({
+              text: "hello scope",  //这里就是要绑定到插槽上的对象
+            }),
+          ]);
+        },
+      });
+      new Vue({
+        el: "#example",
+      });
+    </script>
+  </body>
+</html>

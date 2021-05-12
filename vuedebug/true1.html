@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script type="text/javascript" src="./test.js"></script>
+	<style type="text/css">
+		html,body{
+			padding: 0;
+			margin:0;
+		}
+		.main{
+			padding: 0 100px;
+		}
+		.container{
+			height: 100vh;
+		}
+		.center{
+			float: left;
+			width: 100%;
+			background-color: blue;
+		}
+		.left{
+			position: relative;
+			left: -100px;
+			width: 100px;
+			background-color: yellow;
+			float: left;
+			margin-left: -100%;
+		}
+		.right{
+			position: relative;
+			right: -100px;
+			width: 100px;
+			background-color: red;
+			float: left;
+			margin-left: -100px;
+		}
+	</style>
+</head>
+<body>
+	<div class="main">
+		<div class="container center">center</div>
+		<div class="container left">left</div>
+		<div class="container right">right</div>	
+	</div>
+	
+	<script>
+		function A(instance_b){
+			this.target = instance_b
+			this.name = "xiaoming"
+		}
+
+		A.prototype.invoke_b = function invoke_b(){
+			this.target(this)
+		}
+
+		A.prototype.setname = function setname(name){
+			this.name = name
+			console.log(this.name)
+		}
+		function B(){
+
+		}
+
+		B.prototype.set_a = function set_a(a){
+			console.log(this)
+			a.setname("lilei")
+		}
+
+		b = new B()
+		a = new A(b.set_a)
+		a.invoke_b()
+
+
+		let student = {
+			name:"xiaoming",
+			age:19,
+			action:function(){
+				//在返回的时候就已经绑定好了this
+				return ()=>{
+					console.log(this.name)
+				}
+			}
+		}
+
+		let student2 = {
+			name:"zhansan"
+		}
+
+		let say = student.action.call(student2)
+		say()
+
+
+
+		function aa(k=false){
+			if(k) return kk()
+			bb()
+		}
+		function bb(){
+			cc()
+		}
+		function cc(){
+			dd()
+		}
+		function kk(){
+			dd()
+		}
+		function dd(){
+			invoker = dd.caller
+			console.log(arguments.callee)
+			while(invoker){
+				console.log(invoker)
+				invoker = invoker.caller
+			}
+		}
+
+		aa()
+
+		Array.prototype.forEach = function(){
+			console.log("rewite foreach")
+		}
+		let ar = new Array()
+		ar.__proto__.forEach()
+
+		
+	</script>
+</body>
+</html>

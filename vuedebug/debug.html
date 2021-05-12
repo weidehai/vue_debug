@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./libs/loglevel.js"></script>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		input{
+			display: inline-block;
+            line-height: 30px;
+            text-align: center;
+            font-family: Roboto-Bold;
+            border: none;
+		}
+	</style>
+</head>
+<body bgcolor="red">
+	<div id="app">
+		<div>
+			<h4>data react debug</h4>
+			<span>{{name}}---{{age}}</span>
+			<input type="button" value="change" @click="setname()">	
+		</div>
+		<hr>
+		<div>
+			<h4>list:key debug</h4>
+			<ul>
+				<li v-for="(friend,index) in friends" :key="index">
+					<span><span><span><span><span><span><span><span><span><span><span><span><span>{{friend}}</span></span></span></span></span></span></span></span></span></span></span></span></span>
+				</li>
+			</ul>
+			
+
+			<input type="button" value="add_friend" @click="add_friend()">
+		</div>
+		<hr>
+		<div>
+			<h4>component debug</h4>
+			<component_debug></component_debug>
+			<weidehai></weidehai>
+		</div>
+		
+	</div>
+
+	<script type="text/javascript">
+		let vm;
+		Vue.component("weidehai",{
+			data:function(){
+            	log.warn("execute component data");
+                return{
+                    name:"wwwwwww"
+                }
+            },
+			template:`<div>{{name}}</div>`
+		})
+		Vue.component("component_debug",{
+            data:function(){
+            	log.warn("execute component data");
+                return{
+                    name:['liming','wangwei','han']
+                }
+            },
+            template:`
+                <div>
+                    <span>{{name[0]}}</span>
+                </div>
+            `
+        })
+		vm = new Vue({
+			data:{
+				name:"xiaoming",
+				age:22,
+				friends:['kkk','jjj','llll']
+			},
+			methods:{
+				setname(){
+					this.name = "weidehai"
+				},
+				setage(){
+					this.age = '25'
+				},
+				add_friend(){
+					this.friends.splice(1,0,'7777')
+				}
+			},
+			//template:"<div><span>{{name}}</span></div>"
+		}).$mount("#app")
+	</script>
+</body>
+</html>

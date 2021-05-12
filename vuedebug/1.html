@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="./jquery.min.js"></script>
+    </head>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+        }
+    </style>
+    <body>
+        <div id="parent" class="cc" style="position: absolute;margin: 90px;background-color: red;width: 200px;height: 200px;display: none;">
+            <div id="child1" style="position: absolute;background-color: chartreuse;width: 100px;height: 100px;left: 20px;top: 20px;display: block;"></div>
+        </div>
+        <div id="dd" class="cc"></div>
+        
+        <script>
+            console.log($('#parent'))
+            function getData(type) {
+                $.ajax({
+                    type: "GET",
+                    url: 'http://192.168.1.30:6006/webdump/testmyapi.beltelecom.by/api/v1/contracts',
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    dataType: "json",
+                    timeout:10000,
+                    statusCode: {
+                        401: function() {
+                            top.writeFlash("userExpires",null);
+                            document.location = "autologin.jsp?cctv_type=0";
+                        },
+                        404: function() {
+                            top.writeFlash("userExpires",null);
+                            document.location = "autologin.jsp?cctv_type=0";
+                        }
+                    },
+                    success: function (response) {
+                        data=response;
+                        console.log(response);
+                    }
+                });
+            }
+            getData()
+        </script>
+    </body>
+</html>

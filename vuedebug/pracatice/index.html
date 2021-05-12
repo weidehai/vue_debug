@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+    <title>Document</title>
+    <style type="text/css">
+        #list{
+            margin:100px auto;
+            font-size: 30px;
+        }
+        #editor{
+        	width:350px;
+        	height:700px;
+        	border:1px solid gray;
+        	padding:10px;
+        }
+        table{
+        	border-collapse:collapse;
+        }
+        table td{
+        	border:1px solid gray;
+        	min-width:20px;
+        	word-break:break-all;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="./jsframe-mini2.css">
+</head>
+<body style="background: #fff">
+    <a href="./webdump1111111/index.jsp">20200910.分辨率</a>
+    <div id="list">
+        <a href="fontstest.html">标签宽度</a><br>
+        <a href="fontstest1.html">单个字体</a><br>
+        <a href="fontstest2.html">标签高度</a><br>
+        <a href="fontstest3.html">文章</a><br>
+        <a href="fontstest4.html">文字宽度</a><br>
+        <a href="fontstest5.html">高度累加</a><br>
+        <a href="Indian_money_charecters.html">货币符</a><br>
+        <a href="fontheightkk.html">单个字符高度</a>
+    </div>
+    <button onclick="javascript:Authentication.CTCSetConfig('NTPDomain', 'dsajdsasak2821');">setconfig</button>
+    <button onclick="javascript:alert(Authentication.CTCGetConfig('NTPDomain'));">getconfig</button>
+    <button onclick="insert_table()">insert table</button>
+    <button onclick="add_row_front()">add row front</button>
+    <button onclick="remove_row()">remove row</button>
+    <button onclick="justify_center()">justify center</button>
+    <button onclick="justify_left()">justify left</button>
+    <button onclick="insertHorizontalRule()" style="float: right;">insertHorizontalRule</button>
+    <div id="editor" contenteditable=true></div>
+    
+
+    <script type="text/javascript">
+    	class MyPromise{
+    		constructor(executor){
+    			this.state = MyPromise.STATES.PENDING
+    			this.value = null
+    			this.callbacks = [] 
+    			executor(this.resolve.bind(this),this.reject.bind(this))
+    		}
+    		resolve(value){
+    			if(this.state===MyPromise.STATES.PENDING){
+    				this.state = MyPromise.STATES.FULFILLED
+    				this.value = value
+    				
+    				this.callbacks.map((callback)=>{
+    					callback.onFulfilled(value)
+    				})
+    			}
+    		}
+    		reject(){
+    			if(this.state===MyPromise.STATES.PENDING){
+    				this.state = MyPromise.STATES.REJECTED
+    				this.value = value
+    			}
+    		}
+    		then(onFulfilled,onReject){
+    			onFulfilled = typeof onFulfilled === "function"?onFulfilled:()=>{}
+    			onReject = typeof onReject === "function"?onReject:()=>{}
+    			return new MyPromise((resolve,reject)=>{
+    				setTimeout(()=>{
+	    				if (this.state === MyPromise.STATES.FULFILLED) {
+	    					let result = onFulfilled(this.value)
+	    					if (result instanceof MyPromise) {
+	    						result.then(resolve,reject)
+	    					}else{
+	    						resolve(result)	
+	    					}
+	    				}
+	    				if (this.state === MyPromise.STATES.REJECTED) {
+	    					let result = onReject(this.value)
+	    					if (result instanceof MyPromise) {
+	    						result.then(resolve,reject)
+	    					}else{
+	    						resolve(result)	
+	    					}
+	    				}
+	    				if (this.state === MyPromise.STATES.PENDING) {
+	    					this.callbacks.push({
+	    						onFulfilled,
+	    						onReject
+	    					})
+	    				}
+	    			});
+    			})
+    		}
+    		static reject(value){
+    			return new MyPromise((resolve,reject)=>{
+    				reject(value)
+    			})
+    		}
+    	}
+
+    	MyPromise.STATES = {
+    		"PENDING":"PENDING",
+    		"FULFILLED":"FULFILLED",
+    		"REJECTED":"REJECTED"
+    	}
+
+    	new MyPromise((resolve,reject)=>{
+    		resolve("kkkk")
+    	}).then((value)=>{
+    		console.log(value)
+    	}).then((value)=>{
+    		console.log(value)
+    	})
+
+    	console.log("i will print first")
+
+    	new MyPromise((resolve,reject)=>{
+    		resolve("ddd")
+    	}).then((value)=>{
+    		console.log(value);
+    		return new MyPromise((resolve,reject)=>{
+    			setTimeout(()=>{
+    				resolve("weidehai")
+    			},1000);
+    		})
+		}).then((value)=>{
+			console.log(value)
+		})
+        ztebw.setInitialFocus(false);
+    </script>
+</body>
+</html>

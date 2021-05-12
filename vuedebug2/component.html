@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>brand</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<mytmp @parentmethod="show"></mytmp>
+		<mytmpk :parentdata="msg"></mytmpk>
+	</div>
+	<template id="mytmp"><h2 @click="executepm">this is a child component</h2></template>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				flag:false,
+				msg:'this is parent data'
+			},
+			methods:{
+				show(){
+					console.log('this is parent method')
+				}
+			},
+			filters:{
+			},
+			directives:{
+
+			},
+			components:{
+				mytmp:{
+					template:"#mytmp",
+					methods:{
+						executepm(){
+							this.$emit('parentmethod')	
+						}
+						
+					},
+				},
+				mytmpk:{
+					template:"<h2>transmit parent data to child component----{{ parentdata }}</h2>",
+					props:['parentdata']
+				}
+				
+			}
+
+		})
+	</script>
+</body>
+</html>

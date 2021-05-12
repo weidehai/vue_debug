@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		.fade-enter-active, .fade-leave-active {
+		  transition: opacity .5s;
+		}
+		.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+		  opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model='name'>
+		<p>{{name}}</p>
+		<p>my children name:{{children_name}}</p>
+		<transition name="fade">
+			<p v-if='show'>{{items}}</p>
+		</transition>
+		<children v-model='children_name'></children>
+		<button v-on:click="change_items">change_items</button>
+	</div>
+
+	<script type="text/javascript">
+
+		Vue.component('children',{
+			data:()=>{
+				return {
+					name:"liming"
+				}
+
+			},
+			template: `<input type="text" @input="$emit('input', $event.target.value)">`
+		})
+		const vm = new Vue({
+			data:{
+				name:'weidehai',
+				children_name:'liming',
+				items:'xuchao',
+				show:false
+			},
+			methods:{
+				change_items(){
+					this.items="agai"
+					this.show=!this.show
+				}
+			}
+		}).$mount('#app')
+	</script>
+</body>
+</html>

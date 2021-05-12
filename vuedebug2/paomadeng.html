@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>跑马灯效果</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		#outer{
+			width: 200px;
+			height: 200px;
+			background-color: red;
+		}
+		#inner{
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<input type="button" value="浪起来" v-on:click="startscroll">
+		<input type="button" value="低调" @click="stopscroll">
+		<h4>{{ msg }}</h4>
+		<input type="text" v-bind:value='msg'>
+		<input type="text" v-model='msg'>
+		<!-- <div id="outer" @click='c3'>
+			<div id="inner" @click.self='c2'>
+				<input type="button" value="clickme" @click="c1">
+			</div>
+		</div> -->
+	</div>
+	
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'猥琐发育，别浪~~！',
+				interval:null
+			},
+			methods:{
+				lang(){
+					var start = this.msg.substring(0,1)
+					var end = this.msg.substring(1)
+					this.msg = end + start
+				},
+				startscroll(){
+					if (!this.interval) {
+						console.log('start a interval...')
+						this.interval = setInterval(this.lang,200)
+					}
+				},
+				stopscroll(){
+					clearInterval(this.interval)
+					this.interval=null
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

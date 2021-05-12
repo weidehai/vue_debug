@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>brand</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		table{
+			width: 80%;
+			margin:auto;
+		}
+		table,th,td{
+			border:1px solid black;
+		}
+		td{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div style="width: 80%;margin:auto;margin-bottom: 10px;">
+			<span>id:</span><input type="text" v-model='id' v-focus>
+			<span>name:</span><input type="text" v-model='name' @keyup.enter="add">
+			<input type="button" value="add" @click='add'>
+			<span>search:</span><input type="text" v-model="keyword">
+		</div>
+		<table cellspacing="0">
+			<thead>
+				<tr>
+					<th width="15%">id</th>
+					<th width="35%">name</th>
+					<th width="35%">ctime</th>
+					<th width="15%">operation</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in search(keyword)" :key='item.id'>
+					<td>{{item.id}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.ctime | formattime}}</td>
+					<td><a href="">delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script type="text/javascript">
+		// function formattime(){
+		// 	var stime = new Date()
+		// 	return stime.getFullYear()+'-'+(stime.getMonth()+1)+'-'+stime.getDate()+" " + stime.getHours() + ":" + stime.getMinutes()
+		// }
+
+
+		Vue.filter("formattime",function(data){
+			var stime = new Date(data)
+			return stime.getFullYear()+'-'+(stime.getMonth()+1)+'-'+stime.getDate()+" " + stime.getHours() + ":" + (stime.getMinutes()).toString().padStart(2,'0') + ':' + stime.getSeconds()
+		})
+
+		Vue.directive("focus",{
+			//指令被绑定到element上有三个状态 
+			//bind(directive binded to element,but not in dom) 
+			//inserted(element inserted in dom) 
+			//updated(element be changed)
+			//这三个状态和页面加载过程和页面行为对应，故被称作钩子，其处理函数被称作钩子函数
+			inserted:function(el){
+				el.focus()
+			}
+		})
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				brandlist:[
+					{id:1,name:"bwm",ctime:new Date()},
+					{id:2,name:"benz",ctime:new Date()},
+				],
+				id:'',
+				name:'',
+				keyword:'',
+			},
+			methods:{
+				add(){
+					var newele={
+						id:this.id,
+						name:this.name,
+						ctime:new Date()
+					}
+					this.brandlist.push(newele)
+					return
+				},
+				search(keyword){
+					// var newlist=[]
+					// this.brandlist.forEach((item)=>{
+					// 	if (item.name.indexOf(this.keyword) != -1) {
+					// 		newlist.push(item)
+					// 	}
+					// })
+					// return newlist
+					return this.brandlist.filter((item)=>{
+						if (item.name.includes(keyword)) {
+							return item
+						}
+					})
+				},
+			},
+			filters:{
+				//global and private coexist,will use private filter first
+				formattime:function(data){
+					var stime = new Date(data)
+					return stime.getFullYear()+'-'+(stime.getMonth()+1)+'-'+stime.getDate()+" " + stime.getHours() + ":" + (stime.getMinutes()).toString().padStart(2,'0') + ':' + stime.getSeconds() + "=="			
+				},
+			},
+			directives:{
+
+			}
+
+		})
+	</script>
+</body>
+</html>

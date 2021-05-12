@@ -1,0 +1,58 @@
+Vue源码阅读
+2019.9.1-2019.9.10
+Vue源码依赖收集和数据响应部分学习，初始化一个Vue对象会调用defineReactive$$1函数，进行数据响应的绑定，具体实现是利用Object.defineProperty来拦截数据访问动作，
+在数据变化时执行相应的逻辑，到达数据响应的目的，
+依赖收集是定义在Object.defineProperty的get访问器中的（但是真正发生依赖收集动作是在数据渲染时才进行，因为数据渲染会访问数据，
+也就会触发get访问器，这样就能只将页面需要用到的数据进行收集），维护依赖的对象是Dep，
+每一个数据对应一个Dep实例，当数据发生变化，就会触发set访问器，在set访问器中会通过dep.notify来通知依赖发生变化，dep就会遍历依赖列表中的Watcher，执行update方法来更新dom
+2019.09.15-2019.09.20
+Vue模版渲染部分源码阅读，模版渲染的入口部分是Vue.prototype.$mount函数，我称之为：
+第一步：找模版
+这个函数会依次判断Vue对象是否有render属性，template属性，el属性，只要前一个判断成功则后面不需要判断，因为最后编译会生成render函数，所以先判断render，有的话直接就渲染不需要编译了，没有就找template，在没有就找指定的el的outerHTML作为模版编译
+第二步：编译
+找到模版后（如果没有render）开始编译，使用的是compileToFunctions这个函数（暂时到这...）
+第三步：渲染
+编译生成好render函数后，会调用依次mountComponent--vm._update--patch--createElm--insert来将数据渲染到页面
+这里最重要的是patch的算法，需要重点分析
+2019.10.10
+模版编译及生成render函数部分代码阅读
+模版编译：baseCompile--parse--parseHTML
+parseHTML和parse是编译的核心代码，也就是我们所说的词法分析和语法分析，采用正则表达式匹配解析，匹配项有text文本，
+comment注释，starttag开始标签，endtag结束标签等，最终匹配完成，会生成一个createASTElment抽象语法树对象，并返回，
+再根据抽象语法树编译render 函数，然后后面执行这个render函数就可以创建dom节点插入到页面渲染了
+
+render函数生成
+createCompileToFunctionFn----compile(template, options)
+render最后被挂载到option上
+
+render函数的执行
+就是创建了一堆vnode
+
+
+Vue.component源码
+Vue.extend
+Vue.component会创建一个返回一个Vue对象，
+组件的data会被放到组件的option上,每一个组件都是vue的实例，同时因为组件是可复用的，所以组件的data必须是函数，若不是则一个组件改变了数据其他复用组件的数据也会被改变
+
+v-model原理
+v-model会被解析成on:{"input":function($event){if($event.target.composing)return;name=$event.target.value}}})这种形式挂载在vnode上（也就是input元素上的v-model天然就是和input事件绑定的）
+最终设置监听在哪里呢？render创建好vnode后，会patch，然后创建input元素，然后调用钩子invokecreatehook，也就是创建后触发的钩子，在cbs.create中（有updateAttr，updateDomListenner,updateClass等等），进行元素的事件监听，类名设置，属性设置等
+
+$emit的原理
+组件上的v-model会被解析成_c('children',{model:{value:(children_name),callback:function ($$v) {children_name=$$v}
+组件上的v-model会生成一个绑定在组件上的input函数，这个函数先会被包装成fninvoker，挂在实例的_event对象的input属性下
+当emit的时候，就会到自身的_event中找到对应的事件去执行
+has (vue.js:2087)
+callback (VM5417:3)
+invokeWithErrorHandling (vue.js:1863)
+invoker (vue.js:2188)
+invokeWithErrorHandling (vue.js:1863)
+Vue.$emit (vue.js:3889)
+input (VM5420:3)
+invokeWithErrorHandling (vue.js:1863)
+invoker (vue.js:2188)
+original._wrapper (vue.js:7547)
+
+transition原理
+1.也是在节点patch的时候，通过show属性判断来触发
+2.在节点执行show方法时触发

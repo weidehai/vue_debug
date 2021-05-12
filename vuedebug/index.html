@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>
+            <my-name>
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+            </my-name>
+        </h1>
+        <div v-for="c in components" style="cursor: pointer; width: 120px;border: 1px solid black;display: inline-block;" @click="change">{{c}}</div>
+        <component :is="currentc"></component>
+    </div>
+    <script>
+        Vue.component("my-name",{
+            data:function(){
+                return{
+                    name:['liming','wangwei','han']
+                }
+            },
+            template:`
+                <span>
+                    <p>abort</p>
+                    <span v-for="n in name">{{n}}</span>
+                    <slot></slot>
+                </span>
+            `
+        })
+        Vue.component("com-a",{
+            data:function(){
+               return{
+
+               }
+            },
+            template:`
+                <div>componentA</div>
+            `
+        })
+        Vue.component("com-b",{
+            data:function(){
+                return{
+                   
+               }
+            },
+            template:`
+                <div>componentB</div>
+            `
+        })
+        Vue.component("com-c",{
+            data:function(){
+                return{
+                    
+                }
+            },
+            template:`
+                <div>componentC</div>
+            `
+        })
+        let vm = new Vue({
+            data:{
+                components:["componentA","componentB","componentC"],
+                currentc:'com-a'
+            },
+            methods:{
+                change(e){
+                    switch(e.target.innerText){
+                        case "componentA":
+                            this.currentc = "com-a"
+                            break
+                        case "componentB":
+                            this.currentc = "com-b"
+                            break
+                        case "componentC":
+                            this.currentc = "com-c"
+                            break
+                    }
+                }
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

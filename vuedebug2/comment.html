@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>comment</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding: 0;
+		}
+		li{
+			width: 80%;
+			list-style: none;
+			background-color: #f2f2f2;
+			padding: 10px 10px;
+			border-top: 1px solid black;
+		}
+		.user{
+			float: right;
+			background-color: #c4c4c4;
+			border-radius: 5px;
+			padding: 0 3px;
+		}
+		input{
+			width: 80%;
+			border-radius: 5px;
+			border:1px solid #e3e3e3;
+			height: 30px;
+		}
+		.button{
+			width: 100px;
+			height: 35px;
+			display: block;
+			margin-top: 10px;
+			background-color: #4876ff;
+			outline: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<postcomment @dynamicshow="loadcomments"></postcomment>
+		<li v-for="item in cmlist" :key="item.id">
+			<span class="comment">{{ item.content }}</span><span class="user">评论人：{{ item.user }}</span>
+		</li>
+	</div>
+	<template id="postcomment">
+		<div>
+			<p>评论人</p><input type="text" v-model="user">
+			<p>评论内容</p><input type="text" v-model="content">
+			<input type="button" value="submit" class="button" @click="save">	
+		</div>
+	</template>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				cmlist:[
+					{id:Date.now(),user:"李白",content:"天生我材必有用"},	
+					{id:Date.now(),user:"李白",content:"天生我材必有用"}
+				]
+			},
+			methods:{
+				loadcomments(){
+					this.cmlist = JSON.parse(localStorage.getItem('cmts') || '[]')
+				}
+			},
+			filters:{
+			},
+			directives:{
+
+			},
+			components:{
+				postcomment:{
+					template:"#postcomment",
+					data:function(){
+						return{
+							user:'',
+							content:''
+						}
+					},
+					methods:{
+						save(){
+							var cmlist = JSON.parse(localStorage.getItem('cmts') || '[]')
+							var record = {id:Date.now(),user:this.user,content:this.content}
+							cmlist.unshift(record)
+							localStorage.setItem('cmts',JSON.stringify(cmlist))
+							this.$emit('dynamicshow')
+						}
+						
+					},
+				}
+				
+			},
+			created(){
+				this.loadcomments()
+			},
+
+		})
+	</script>
+</body>
+</html>
