@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'>
+  <title></title>
+  <script type='text/javascript' src='../vue-dev/dist/vue.js'></script>
+</head>
+<body>
+  <div id="app">
+    {{name}}
+    <comA v-model="name"></comA>
+  </div>
+  <script>
+      var comA={
+        data(){
+            return{
+                name:"comA"
+            }
+        },
+        model:{
+            prop:'parentname',
+            event:'input'
+        },
+        methods:{
+            changeparentname(){
+                this.$emit('input',"liming")
+                console.log(this.parentname)
+                console.log(this.$root.name)
+                this.$emit('input',"wangwei")
+                console.log(this.parentname)
+                //连续两个emit，父组件的对应属性是会变化的，但是子组件的属性还没变，要等到nexttick之后才变化
+            }
+        },
+        props:{
+            parentname:String
+        },
+        template:`<div>my name is {{name}} my parent name is {{parentname}}
+            <button @click="changeparentname">changeparentname</button>
+            </div>`
+      }
+      const vm = new Vue({
+        data:{name:'weidehai'},
+        methods:{},
+        components:{
+            coma:comA
+        },
+        watch:{
+            name:function(val){
+                console.log('parent watch name update')
+                console.log(val)
+            }
+            //watch也是异步的，多个更新只会被捕捉到一次
+        }
+      }).$mount('#app')
+  </script>
+</body>
+</html>
