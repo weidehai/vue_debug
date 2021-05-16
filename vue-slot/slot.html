@@ -20,36 +20,42 @@
       </p>
     <![endif]-->
     <div id="example">
-      <my-slot>
+      <!-- <my-slot>
         <div slot-scope="scope">
           我会被放到插槽里,我可以访问子组件的变量{{scope.nickname}}
         </div>
       </my-slot>
-      <myslot2>
+      <myslot2 ref="w1">
+        <div slot-scope="scope">
+          我会被放到插槽里,我是用函数式编程的作用域插槽，我可以访问子组件的变量{{scope.text}}
+        </div>
+      </myslot2> -->
+      <myslot2 ref="w1">
         <div slot-scope="scope">
           我会被放到插槽里,我是用函数式编程的作用域插槽，我可以访问子组件的变量{{scope.text}}
         </div>
       </myslot2>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../vuedebug/vue.js"></script>
+    <script type="text/javascript" src="../vuedebug/libs/loglevel.js"></script>
     <script>
-      Vue.component("my-slot", {
-        data: function () {
-          return {
-            count: 0,
-          };
-        },
-        created() {
-          console.log(this.$slots);
-          console.log(this.$scopedSlots);
-        },
-        mounted() {
-          console.log(this.$slots);
-          console.log(this.$scopedSlots);
-        },
-        template: `<div><p>weidehai</p><slot :nickname="'wdh'"></slot></div>`, //这样是吧作用插槽写在了模板中，由vue的编译器来编译模板
-        //还有一种方法就是用编程式，也就是函数式的方式来定义作用域插槽
-      });
+      // Vue.component("my-slot", {
+      //   data: function () {
+      //     return {
+      //       count: 0,
+      //     };
+      //   },
+      //   created() {
+      //     console.log(this.$slots);
+      //     console.log(this.$scopedSlots);
+      //   },
+      //   mounted() {
+      //     console.log(this.$slots);
+      //     console.log(this.$scopedSlots);
+      //   },
+      //   template: `<div><p>weidehai</p><slot :nickname="'wdh'"></slot></div>`, //这样是吧作用插槽写在了模板中，由vue的编译器来编译模板
+      //   //还有一种方法就是用编程式，也就是函数式的方式来定义作用域插槽
+      // });
       Vue.component("myslot2", {
         render: function (createElement) {
           var he = createElement("div", {
@@ -57,14 +63,20 @@
           });
           return createElement("div", [
             he,
+            //this.$slots.default,   //createElement会创建vnode，这个vnode等到patch的时候会用来比较，发现新老vnode不一样就会patch生成真实的node，真实的node是通过vnode来生成的
+            // 如果不写this.$slots.default，那么这个组件的子内容下就不会存到vnode内，patch的时候就渲染不到
             this.$scopedSlots.default({
-              text: "hello scope",  //这里就是要绑定到插槽上的对象
+              text: "hello scope", //这里就是要绑定到插槽上的对象
             }),
           ]);
         },
       });
       new Vue({
         el: "#example",
+        created() {},
+        mounted() {
+          console.log(this.$refs);
+        },
       });
     </script>
   </body>
