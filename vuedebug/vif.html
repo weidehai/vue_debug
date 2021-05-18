@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./libs/loglevel.js"></script>
+	<script type="text/javascript" src="./vue.js"></script>
+</head>
+<body>
+	<div id="app">
+    <button @click="displayToggle">display toggle</button><div v-if='show'>v-if源码分析</div>
+	</div>
+
+	<script type="text/javascript">
+	  let vm = new Vue({
+			data:{
+				show:true
+			},
+			methods:{
+				displayToggle(){
+          console.log(this)
+					this.show = !this.show
+				}
+      }
+		}).$mount("#app")
+	</script>
+</body>
+</html>
