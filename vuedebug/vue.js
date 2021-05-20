@@ -175,6 +175,7 @@ console.log("Vue execute");
   /**
    * Camelize a hyphen-delimited string.
    */
+   // 短横线转化为小驼峰
   var camelizeRE = /-(\w)/g;
   var camelize = cached(function (str) {
     return str.replace(camelizeRE, function (_, c) {
@@ -239,6 +240,7 @@ console.log("Vue execute");
    * Mix properties into target object.
    */
   function extend(to, _from) {
+	 // for...in会遍历到对象原型上的属性，但这里传入的是Object.create(null)创建的对象，不用担心遍历到原型的情况
     for (var key in _from) {
       to[key] = _from[key];
     }
@@ -394,7 +396,7 @@ console.log("Vue execute");
      * Option merge strategies (used in core/util/options)
      */
     // $flow-disable-line
-    optionMergeStrategies: Object.create(null),
+    optionMergeStrategies: Object.create(null),   //Object.create(),创建一个对象，并把一个这个对象的原型指向传入的参数，当传入null的时候，用于创建一个纯净的对象
 
     /**
      * Whether to suppress warnings.
@@ -1195,7 +1197,7 @@ console.log("Vue execute");
    * how to merge a parent option value and a child option
    * value into the final value.
    */
-  var strats = config.optionMergeStrategies;
+  var strats = config.optionMergeStrategies;  //option合并的策略模式，vue有一个基础option，在每次新建一个vue实例的时候，会将传入的option与基础option进行合并
 
   /**
    * Options with restrictions
@@ -1409,6 +1411,7 @@ console.log("Vue execute");
   /**
    * Default strategy.
    */
+   // 默认合并策略，如果child存在就覆盖，不存在就返回parent
   var defaultStrat = function (parentVal, childVal) {
     return childVal === undefined ? parentVal : childVal;
   };
@@ -7521,10 +7524,11 @@ console.log("Vue execute");
           // starting reference
           e.target.ownerDocument !== document
         ) {
-          return original.apply(this, arguments);
+          return original.apply(this, arguments);   //闭包
         }
       };
     }
+	// 这里的handler只是一个代理，handler只是createFnInvoker返回的函数，真正的执行函数会先被createFnInvoker包装，挂载在其内部的闭包invoker上（invoker.fns），然后return invoker
     target$1.addEventListener(
       name,
       handler,
