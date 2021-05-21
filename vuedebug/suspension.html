@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="./libs/loglevel.js"></script>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <div
+      id="suspension"
+      style="
+        width: 100px;
+        height: 100px;
+        background-color: beige;
+        position: absolute;
+        top: 0;
+        left: 0;
+      "
+    ></div>
+    <script>
+      let suspension = document.querySelector("#suspension");
+      function drag() {
+        let dragFlag = false;
+        let startPositionX = 0,
+          startPositionY = 0,
+          moveX = 0,
+          moveY = 0;
+        let top = 0,
+          left = 0;
+        let tempTop = 0,
+          tempLeft = 0;
+        function calculatePosition(top, left) {
+          let result = [];
+          if (top < 0){
+            result.push(Math.max(top, 0));
+          }else{
+            result.push(Math.min(top, document.documentElement.clientHeight - 100));
+          }
+          if (left < 0) {
+            result.push(Math.max(left, 0))
+          }else{
+            result.push(Math.min(left, document.documentElement.clientWidth - 100));
+          };
+          console.log(result)
+          return result;
+        }
+        suspension.addEventListener("mousedown", (e) => {
+          function mouseMoveHandler(e) {
+            if (!dragFlag) return;
+            (e.moveX = e.pageX - startPositionX), (e.moveY = e.pageY - startPositionY);
+            [tempTop, tempLeft] = calculatePosition(e.moveY + top, e.moveX + left);
+            suspension.style.top = (tempTop) + "px";
+            suspension.style.left = (tempLeft) + "px";
+          }
+          function mouseUpHandler(e) {
+            dragFlag = !dragFlag;
+            (top = tempTop), (left = tempLeft);
+            clearEventListener();
+          }
+
+          function clearEventListener() {
+            document.removeEventListener("mousemove", mouseMoveHandler);
+            document.removeEventListener("mouseup", mouseUpHandler);
+          }
+          (startPositionX = e.pageX), (startPositionY = e.pageY);
+          dragFlag = true;
+          document.addEventListener("mousemove", mouseMoveHandler);
+          document.addEventListener("mouseup", mouseUpHandler);
+        });
+        function offsetOutOfBox(e) {
+          return e.offsetY > 100 || e.offsetY < 0 || e.offsetX > 100 || e.offsetX < 0;
+        }
+      }
+
+      drag();
+    </script>
+  </body>
+</html>

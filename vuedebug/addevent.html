@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1 class="test">test addeventlistener</h1>
+      <button onclick="delH1()">delete h1</button>
+      <button onclick="modifyContent(11111)">modifyContent</button>
+    </div>
+    <script>
+      // document.querySelector('.test').addEventListener('click',function(){
+      //   this.innerHTML = 'refrence h1 on click event'
+      // })
+      function delH1() {
+        document.querySelector(".test").remove();
+      }
+      // function closure_test(){
+      //   let h1 = document.querySelector('.test')
+      //   function modifyContent(text){
+      //     h1.innerText = text
+      //   }
+      //   return modifyContent
+      // }
+
+      // modifyContent = closure_test()
+
+      //bind
+      function modifyContent1111(text) {
+        this.innerText = text;
+      }
+
+      function modifyContent(){
+        document.querySelector(".test").innerText = '11111111'
+      }
+    </script>
+  </body>
+</html>

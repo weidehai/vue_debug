@@ -1051,7 +1051,7 @@ console.log("Vue execute");
    * Define a reactive property on an Object.
    */
   function defineReactive$$1(obj, key, val, customSetter, shallow) {
-    var dep = new Dep();
+    var dep = new Dep();   
     console.log("defineReactive$$1");
     var property = Object.getOwnPropertyDescriptor(obj, key);
     if (property && property.configurable === false) {
@@ -1065,7 +1065,7 @@ console.log("Vue execute");
       val = obj[key];
     }
 
-    var childOb = !shallow && observe(val);
+    var childOb = !shallow && observe(val);   // 默认是深监听
     console.log(obj);
     console.log(key);
     Object.defineProperty(obj, key, {
@@ -1076,8 +1076,10 @@ console.log("Vue execute");
         var value = getter ? getter.call(obj) : val;
         if (Dep.target) {
           console.log("dep.target");
+		  // 当产生一个订阅者，就会将其挂载到target上，通过订阅者addDep方法将其添加到发布系统上，用一个数组存储，等事件达到，发布系统遍历这个数组执行update方法（订阅者需要有一个统一的方法来供发布者调用）
           console.log(Dep.target);
-          dep.depend();
+		  // 发布-订阅模式
+          dep.depend();  // 这里是闭包，通过闭包引用dep
           if (childOb) {
             childOb.dep.depend();
             if (Array.isArray(value)) {
@@ -3133,6 +3135,7 @@ console.log("Vue execute");
 
   var hooksToMerge = Object.keys(componentVNodeHooks);
 
+  
   function createComponent(Ctor, data, context, children, tag) {
     if (isUndef(Ctor)) {
       return;
@@ -3239,6 +3242,8 @@ console.log("Vue execute");
       options.render = inlineTemplate.render;
       options.staticRenderFns = inlineTemplate.staticRenderFns;
     }
+	// Vnode里面存储了创建组件的构造函数，这个构造函数是从Vue构造函数复制而来
+	// 返回一个Vue实例
     return new vnode.componentOptions.Ctor(options);
   }
 
@@ -3887,7 +3892,7 @@ console.log("Vue execute");
       console.log("update.....");
       var vm = this;
       var prevEl = vm.$el;
-      var prevVnode = vm._vnode;
+      var prevVnode = vm._vnode;  // 老vnode，render函数的本质就是渲染一颗从mount节点开始的虚拟dom树
       var restoreActiveInstance = setActiveInstance(vm);
       vm._vnode = vnode;
       // Vue.prototype.__patch__ is injected in entry points
@@ -4425,7 +4430,7 @@ console.log("Vue execute");
     var value;
     var vm = this.vm;
     try {
-      value = this.getter.call(vm, vm);
+      value = this.getter.call(vm, vm);   // 这里进入就会重新调用updateComponent，vm._update(render),patch重新渲染页面了
     } catch (e) {
       if (this.user) {
         handleError(e, vm, 'getter for watcher "' + this.expression + '"');
@@ -5025,8 +5030,10 @@ console.log("Vue execute");
   renderMixin(Vue);
 
   /*  */
-
+  // 安装插件
   function initUse(Vue) {
+	 // 在elementui中，install就是吧组件安装成vue的全局组件
+	 // 在vue-router中有两个操作 mixin和 Vue.component('RouterView', View); Vue.component('RouterLink', Link);
     Vue.use = function (plugin) {
       var installedPlugins = this._installedPlugins || (this._installedPlugins = []);
       if (installedPlugins.indexOf(plugin) > -1) {
@@ -5034,6 +5041,7 @@ console.log("Vue execute");
       }
 
       // additional parameters
+	  // 插件要实现install方法
       var args = toArray(arguments, 1);
       args.unshift(this);
       if (typeof plugin.install === "function") {
@@ -5088,6 +5096,7 @@ console.log("Vue execute");
         log.error("init component");
         this._init(options);
       };
+	  //原型连接，所以组件VueComponent也是Vue的一个实例
       Sub.prototype = Object.create(Super.prototype);
       Sub.prototype.constructor = Sub;
       Sub.cid = cid++;
@@ -5882,10 +5891,12 @@ console.log("Vue execute");
 
         /* istanbul ignore if */
         {
+		  // 深度优先遍历，递归创建子节点
           createChildren(vnode, children, insertedVnodeQueue);
           if (isDef(data)) {
             invokeCreateHooks(vnode, insertedVnodeQueue);
           }
+		  
           insert(parentElm, vnode.elm, refElm);
         }
 
@@ -5900,7 +5911,8 @@ console.log("Vue execute");
         insert(parentElm, vnode.elm, refElm);
       }
     }
-
+	
+	// 当执行render函数会对每一个tag尝试createComponent，组件的vnode的data中带有init这个hook，会重新走一遍vue的初始化流程
     function createComponent(vnode, insertedVnodeQueue, parentElm, refElm) {
       var i = vnode.data;
       if (isDef(i)) {
@@ -5974,7 +5986,8 @@ console.log("Vue execute");
         }
       }
     }
-
+	
+	// 
     function createChildren(vnode, children, insertedVnodeQueue) {
       if (Array.isArray(children)) {
         {

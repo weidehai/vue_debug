@@ -13,25 +13,33 @@
     <div id="app">
       <img alt="Vue logo" width="25%" />
       <button @click="handleClose">子组件开关</button>
+      <p>{{desc.name}}</p>
       <helloworld
         v-if="visible"
         @handle-close="handleClose"
         msg="组件内存泄漏测试"
+        mydata="weidehai"
       />
     </div>
     <script>
       var vm = new Vue({
         data: {
           visible: true,
+          desc:{
+            name:'hello world'
+          }
         },
         components: {
           helloworld: {
-            props:['msg'],
-            methods:{
+            props: ["msg"],
+            methods: {
               //TODO:研究新建vue实例的时候，option中的method是如何处理的，$emit方法是如何调用的（涉及到观察者模式），是否有闭包导致内存泄漏的可能
-                onClose(){
-                    this.$emit("handle-close")
-                }
+              onClose() {
+                this.$emit("handle-close");
+              },
+            },
+            created() {
+              console.log(this.msg);
             },
             template: `<div><div class="hello"><h1>{{ msg }}</h1></div><button @click="onClose">子组件调用隐藏</button></div>`,
           },
@@ -42,6 +50,9 @@
             this.visible = !this.visible;
           },
         },
+        created(){
+          console.log("🚀 ~ file: components.html ~ line 56 ~ created ~ this.data", this.desc)
+        }
       }).$mount("#app");
     </script>
   </body>
