@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="./libs/loglevel.js"></script>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>父组件---{{word}}</h1>
+      <button @click="changeWord">change parent word</button>
+      <helloworld />
+    </div>
+    <script>
+      var vm = new Vue({
+        data: {
+          word: "parent",
+        },
+        components: {
+          helloworld: {
+            data: () => {
+              return {
+                word: "child",
+              };
+            },
+            created() {
+              console.log("child create");
+            },
+            updated() {
+              console.log("child updated");
+            },
+            methods:{
+              changeWord(){
+                this.word = 'update'
+              }
+            },
+            template: `<div><h1>子组件---{{word}}</h1><button @click="changeWord">change child word</button></div>`,
+          },
+        },
+        methods: {
+          changeWord() {
+            this.word = "update";
+          },
+        },
+        created() {
+          console.log("parent create");
+        },
+        updated() {
+          console.log("parent updated");
+        },
+      }).$mount("#app");
+    </script>
+  </body>
+</html>
