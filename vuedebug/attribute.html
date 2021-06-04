@@ -10,7 +10,13 @@
   </head>
   <body>
     <div id="app">
-      <ccc :class="'cccc'"></ccc>
+      <ccc :class="'cccc'" v-if="word"></ccc>
+      <h3 v-html="'ccccccccc'" v-show="false">1234</h3>
+      <h2>{{calculate}}</h2>
+      <button @click="changeComputedData">changeComputedData</button>
+      <button @click="changeWord">changeWord</button>
+      <button @click="changeName">changeName</button>
+      <h4>{{myobj.name}}</h4>
     </div>
     <script>
 
@@ -29,7 +35,37 @@
 
       const vm = new Vue({
         data:{
-          word:'kkkkkkkk'
+          word:'kkkkkkkk',
+          myobj:{
+            name:100000
+          }
+        },
+        created(){
+          console.log(this)
+        },
+        computed:{
+          calculate:function(){
+            return "test computed"+this.word
+          }
+        },
+        watch:{
+          word(){
+            console.log("testHandler")
+          }
+        },
+        methods:{
+          testHandler(){
+            console.log("testHandler")
+          },
+          changeComputedData(){
+            this.calculate = 10   //Computed property "calculate" was assigned to but it has no setter.
+          },
+          changeWord(){
+            this.myobj = {name:90000}
+          },
+          changeName(){
+            this.myobj.name = "sadsadasdsad"
+          }
         }
       }).$mount("#app")
 

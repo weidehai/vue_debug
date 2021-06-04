@@ -523,6 +523,8 @@ console.log("Vue execute");
     if (bailRE.test(path)) {
       return;
     }
+	
+	// 支持"xxx.xxx.xxx"这种调用方式
     var segments = path.split(".");
     return function (obj) {
       for (var i = 0; i < segments.length; i++) {
