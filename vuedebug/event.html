@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="./libs/loglevel.js"></script>
+    <script type="text/javascript" src="./vue.js"></script>
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div id="app">{{name}} <button onclick="bb()">1111111111</button></div>
+    <div id="test"><input type="text" id="tt"></div>
+    <button onclick="addtext()">addtext</button>
+    <script>
+      function aa(){
+        console.log('event ddd')
+      }
+      const vm = new Vue({
+        data:{
+          name:'weidehai'
+        },
+        created(){
+          this.$on('myevent',aa)
+        }
+      }).$mount('#app')
+      function bb(){
+        vm.$emit('myevent')
+      }
+      const tt = document.querySelector('#tt')
+      let data = {
+        _text:'',
+        set text(val){
+          this._text = val
+          tt.value = val
+        },
+        get text(){
+          return this._text
+        }
+      }
+      let data2 = {
+        text:''
+      }
+      let p = new Proxy(data2, {
+        get(t,p,r){
+            console.log(t,p,r)
+            return t.text
+        },
+        set(obj,pro,val){
+          console.log(obj,pro,val)
+          obj[pro] = val
+          tt.value = val
+        }
+      })
+      function addtext(){
+        p.text += '11'
+      }
+      tt.oninput = function(){
+        p.text = this.value
+        console.log(p)
+      }
+      //let ptext = ''
+      // Object.defineProperty(data,'text',{
+      //   get(){
+      //     return ptext
+      //   },
+      //   set(newval){
+      //     console.log(newval)
+      //     ptext = newval
+      //     tt.value = newval
+      //   }
+      // })
+
+
+    </script>
+  </body>
+</html>
