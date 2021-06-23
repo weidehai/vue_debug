@@ -10,33 +10,42 @@
     <div>
       <h1 class="test">test addeventlistener</h1>
       <button onclick="delH1()">delete h1</button>
-      <button onclick="modifyContent(11111)">modifyContent</button>
+      <button onclick="closure_test()">bibao</button>
     </div>
     <script>
-      // document.querySelector('.test').addEventListener('click',function(){
+      // function handler(){
       //   this.innerHTML = 'refrence h1 on click event'
-      // })
+      // }
+      // document.querySelector('.test').addEventListener('click',handler)
       function delH1() {
+        //document.querySelector('.test').removeEventListener('click',handler)
         document.querySelector(".test").remove();
       }
+      let h1 = document.querySelector('.test')
+      function closure_test(){
+        console.log(h1)
+        h1.innerText = '11111'
+      }
+      //button 引用closure_test，closure_test引用全局变量h1，形成一个闭包，h1不会被释放
       // function closure_test(){
       //   let h1 = document.querySelector('.test')
-      //   function modifyContent(text){
+      //   function bibao(text){
+      //     console.log(h1)
       //     h1.innerText = text
       //   }
-      //   return modifyContent
+      //   return bibao
       // }
 
-      // modifyContent = closure_test()
+      // bibao = closure_test()
 
       //bind
-      function modifyContent1111(text) {
-        this.innerText = text;
-      }
+      // function modifyContent1111(text) {
+      //   this.innerText = text;
+      // }
 
-      function modifyContent(){
-        document.querySelector(".test").innerText = '11111111'
-      }
+      // function modifyContent(){
+      //   document.querySelector(".test").innerText = '11111111'
+      // }
     </script>
   </body>
 </html>
