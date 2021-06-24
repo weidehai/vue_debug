@@ -7,17 +7,22 @@
     <title>Document</title>
   </head>
   <body>
-    <div>
+    <div id="ddd">
       <h1 class="test">test addeventlistener</h1>
       <button onclick="delH1()">delete h1</button>
       <button onclick="closure_test()">bibao</button>
     </div>
     <script>
+
       // function handler(){
       //   this.innerHTML = 'refrence h1 on click event'
       // }
       // document.querySelector('.test').addEventListener('click',handler)
       function delH1() {
+        let h1s = document.querySelectorAll("h1");
+        h1s.forEach((item) => {
+          item.remove();
+        });
         //document.querySelector('.test').removeEventListener('click',handler)
         document.querySelector(".test").remove();
       }
@@ -38,7 +43,37 @@
 
       // bibao = closure_test()
 
+      //测试方法：创建一个大量的元素，闭包获取这些所有的元素，然后删除这些所有元素，看内存
       //bind
+      // number = 200000;
+      // fragrame = document.createDocumentFragment();
+      // div = document.querySelector("#ddd");
+      // while (number) {
+      //   h1 = document.createElement("h1");
+      //   h1.innerText = "ccc";
+      //   fragrame.append(h1);
+      //   number--;
+      // }
+      // div.append(fragrame);
+      // let h1s = document.querySelectorAll("h1");
+      // h1s.forEach((item) => {
+      //   item.addEventListener("click", function () {
+      //     this.innerHTML = "refrence h1 on click event";
+      //   });
+      // });
+      // document.querySelector(".test").addEventListener("click", function () {
+      //   this.innerHTML = "refrence h1 on click event";
+      // });
+      function closure_test(){
+        let h1s = document.querySelectorAll('h1')
+        function modifyContent(text){
+          for(let item of h1s){
+            item.innerText = 'dddddd'
+          }
+        }
+        return modifyContent
+      }
+      modifyContent = closure_test()
       // function modifyContent1111(text) {
       //   this.innerText = text;
       // }
