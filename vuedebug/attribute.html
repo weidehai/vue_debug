@@ -10,7 +10,8 @@
   </head>
   <body>
     <div id="app">
-      <ccc :class="'cccc'" v-if="word"></ccc>
+      <CCC :class="'cccc'" v-if="word" class="ddddd" name="weidehai" customuse="csadad"></CCC>
+      <dddd customuse="csadad"></dddd>
       <h3 v-html="'ccccccccc'" v-show="false" :ccc="false" dddd='false'>1234</h3>
       <h2>{{calculate}}</h2>
       <button @click="changeComputedData">changeComputedData</button>
@@ -24,9 +25,17 @@
         data:()=>({
           word:"test!!!!"
         }),
-        template:'<ccc2 />'
+        template:'<ccc-2 />'
       })
 
+
+      Vue.component('dddd',{
+        props:{
+          customuse:String,
+          class:"kkk"
+        },
+        template:"<div>{{customuse}}{{class}}</div>"
+      })
 
       Vue.component('ccc2',{
         template:'<div><h1>cccccc2222</h1></div>'
