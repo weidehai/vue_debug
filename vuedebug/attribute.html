@@ -14,6 +14,7 @@
       <dddd customuse="csadad"></dddd>
       <h3 v-html="'ccccccccc'" v-show="false" :ccc="false" dddd='false'>1234</h3>
       <h2>{{calculate}}</h2>
+      <cp1 props-one="123"></cp1>
       <button @click="changeComputedData">changeComputedData</button>
       <button @click="changeWord">changeWord</button>
       <button @click="changeName">changeName</button>
@@ -39,6 +40,13 @@
 
       Vue.component('ccc2',{
         template:'<div><h1>cccccc2222</h1></div>'
+      })
+
+      Vue.component('cp1',{
+        props:{
+          propsOne:String
+        },
+        template:'<div>{{propsone}}</div>'
       })
 
 
