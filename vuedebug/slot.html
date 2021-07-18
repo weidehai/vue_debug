@@ -16,10 +16,18 @@
     </div>
     <script>
       Vue.component('testslot',{
-        template:`<div><h1>dsds</h1><slot></slot></div>`
+        template:`<div><h1>dsds</h1><slot></slot><slot></slot><slot></slot></div>`
       })
       new Vue({
+        render:h=>h(
+  'h2',
+  {
+    level: 1
+  },
 
+    [h('span', 'Hello'), ' world!']
+
+)
       }).$mount('#app')
     </script>
   </body>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../libs/loglevel.js"></script>
+    <script src="../vue.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="i in list"><input type="checkbox" name="" id="">{{i}}</li>
+      </ul>
+      <button @click="add">add</button>
+    </div>
+    <script>
+      list = [1, 2, 3, 4, 5];
+      new Vue({
+        data: {
+          list: [1, 2, 3, 4, 5],
+        },
+        //   render: (h) => h("ul", [(()=>{return list.map(item=>{
+        //   return h("li",[h("input", { attrs: { type: "checkbox" } }), item])
+        // })})()]),
+        methods: {
+          add() {
+            this.list.unshift(0);
+          },
+        },
+      }).$mount("#app");
+    </script>
+  </body>
+</html>
