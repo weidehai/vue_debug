@@ -5227,7 +5227,7 @@
           }
           if (type === 'component' && isPlainObject(definition)) {
             definition.name = definition.name || id;
-            definition = this.options._base.extend(definition); 
+            definition = this.options._base.extend(definition);
           }
           if (type === 'directive' && typeof definition === 'function') {
             definition = { bind: definition, update: definition };
@@ -11933,6 +11933,7 @@
         var staticRenderFns = ref.staticRenderFns;
         options.render = render;
         options.staticRenderFns = staticRenderFns;
+        console.log(options.render)
 
         /* istanbul ignore if */
         if (config.performance && mark) {
