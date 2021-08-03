@@ -3548,6 +3548,7 @@
         // separately from one another. Nested component's render fns are called
         // when parent component is patched.
         currentRenderingInstance = vm;
+        console.log(render);
         vnode = render.call(vm._renderProxy, vm.$createElement);
       } catch (e) {
         handleError(e, vm, "render");
@@ -5227,7 +5228,7 @@
           }
           if (type === 'component' && isPlainObject(definition)) {
             definition.name = definition.name || id;
-            definition = this.options._base.extend(definition); 
+            definition = this.options._base.extend(definition);
           }
           if (type === 'directive' && typeof definition === 'function') {
             definition = { bind: definition, update: definition };

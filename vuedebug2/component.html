@@ -4,12 +4,12 @@
 	<title>brand</title>
 	<script type="text/javascript" src="./vue.js"></script>
 	<style type="text/css">
-		
+
 	</style>
 </head>
 <body>
 	<div id="app">
-		<mytmp @parentmethod="show"></mytmp>
+		<mytmp-components @parentmethod="show"></mytmp-components>
 		<mytmpk :parentdata="msg"></mytmpk>
 	</div>
 	<template id="mytmp"><h2 @click="executepm">this is a child component</h2></template>
@@ -31,20 +31,20 @@
 
 			},
 			components:{
-				mytmp:{
+				MYTMP:{
 					template:"#mytmp",
 					methods:{
 						executepm(){
-							this.$emit('parentmethod')	
+							this.$emit('parentmethod')
 						}
-						
+
 					},
 				},
 				mytmpk:{
 					template:"<h2>transmit parent data to child component----{{ parentdata }}</h2>",
 					props:['parentdata']
 				}
-				
+
 			}
 
 		})
