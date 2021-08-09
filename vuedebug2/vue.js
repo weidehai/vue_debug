@@ -11934,6 +11934,7 @@
         var staticRenderFns = ref.staticRenderFns;
         options.render = render;
         options.staticRenderFns = staticRenderFns;
+        console.log(options.render)
 
         /* istanbul ignore if */
         if (config.performance && mark) {
