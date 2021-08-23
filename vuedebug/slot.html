@@ -11,24 +11,28 @@
   <body>
     <div id="app">
       <testslot>
-        adsassdsd
+        <template v-slot:default="slotProps">
+          {{ slotProps.user }}
+        </template>
       </testslot>
     </div>
     <script>
-      Vue.component('testslot',{
-        template:`<div><h1>dsds</h1><slot></slot><slot></slot><slot></slot></div>`
-      })
+      Vue.component("testslot", {
+        data:()=>({
+          name:"weidehai"
+        }),
+        template: `<div><h1>dsds</h1><slot :user="name"></slot></div>`,
+      });
       new Vue({
-        render:h=>h(
-  'h2',
-  {
-    level: 1
-  },
-
-    [h('span', 'Hello'), ' world!']
-
-)
-      }).$mount('#app')
+        // render: (h) =>
+        //   h(
+        //     "h2",
+        //     {
+        //       level: 1,
+        //     },
+        //     [h("span", "Hello"), " world!"]
+        //   ),
+      }).$mount("#app");
     </script>
   </body>
 </html>
