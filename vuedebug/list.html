@@ -1,57 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-	<script type="text/javascript" src="vue.js"></script>
-	<style type="text/css">
-		#app{
-			padding: 150px;
-		}
-		li{
-			list-style: none;
-		}
-		#infinity { position: relative; width: 212px; height: 100px; } 
-		#infinity:before, #infinity:after { 
-			content: ""; 
-			position: absolute; 
-			top: 0; 
-			left: 0; 
-			width: 60px; 
-			height: 60px; 
-			border: 20px solid red; 
-			-moz-border-radius: 50px 50px 0 50px; border-radius: 50px 50px 0 50px; -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); } #infinity:after { left: auto; right: 0; -moz-border-radius: 50px 50px 50px 0; border-radius: 50px 50px 50px 0; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg); }
-		#moon { width: 80px; height: 80px; border-radius: 50%; box-shadow:1px 1px 3px white,2px 2px 3px yellow,3px 3px 3px orange; }
-	</style>
-</head>
-<body>
-	<div id="app">
-		<ul>
-			<li v-for="item in items"><input type="checkbox">{{item}}</li>
-		</ul>
-		<button v-on:click="add_tail">在尾部增加</button>
-		<button v-on:click="add_head">在头部增加</button>
-	</div>
-	
-	<div id="infinity"></div>
-	<div id="moon"></div>
-	
-	
-		
-	<script type="text/javascript">
-		new Vue({
-			el:"#app",
-			data:{
-				items:[1111,2222,333,4444]
-			},
-			methods:{
-				add_tail(){
-					this.items.push("5555");
-				},
-				add_head(){
-					this.items.unshift("5555");
-				}
-			}	
-		})
-	</script>
-</body>
+  <head>
+    <title></title>
+    <script src="./libs/loglevel.js"></script>
+    <script type="text/javascript" src="vue.js"></script>
+    <style type="text/css">
+      #app {
+        padding: 150px;
+      }
+      li {
+        list-style: none;
+      }
+      #infinity {
+        position: relative;
+        width: 212px;
+        height: 100px;
+      }
+      #infinity:before,
+      #infinity:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 60px;
+        border: 20px solid red;
+        -moz-border-radius: 50px 50px 0 50px;
+        border-radius: 50px 50px 0 50px;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+      #infinity:after {
+        left: auto;
+        right: 0;
+        -moz-border-radius: 50px 50px 50px 0;
+        border-radius: 50px 50px 50px 0;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      #moon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        box-shadow: 1px 1px 3px white, 2px 2px 3px yellow, 3px 3px 3px orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="item in items"><input type="checkbox" />{{item}}</li>
+      </ul>
+      <button v-on:click="add_tail">在尾部增加</button>
+      <button v-on:click="add_head">在头部增加</button>
+    </div>
+
+    <div id="infinity"></div>
+    <div id="moon"></div>
+
+    <script type="text/javascript">
+      new Vue({
+        el: "#app",
+        data: {
+          items: [1111, 2222, 333, 4444],
+        },
+        methods: {
+          add_tail() {
+            this.items.push("5555");
+          },
+          add_head() {
+            this.items.unshift("5555");
+          },
+        },
+        watch: {
+          items() {
+            console.log("1111");
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
