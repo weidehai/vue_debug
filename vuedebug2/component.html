@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>brand</title>
-	<script type="text/javascript" src="./vue.js"></script>
-	<style type="text/css">
-
-	</style>
-</head>
-<body>
-	<div id="app">
-		<myTMP @parentmethod="show"></myTMP>
-		<mytmpk :parentdata="msg"></mytmpk>
-	</div>
-	<template id="mytmp"><h2 @click="executepm">this is a child component</h2></template>
-	<script type="text/javascript">
-		var vm = new Vue({
-			el:"#app",
-			data:{
-				flag:false,
-				msg:'this is parent data'
-			},
-			methods:{
-				show(){
-					console.log('this is parent method')
-				}
-			},
-			filters:{
-			},
-			directives:{
-
-			},
-			components:{
-				mytmp:{
-					template:"#mytmp",
-					methods:{
-						executepm(){
-							this.$emit('parentmethod')
-						}
-
-					},
-				},
-				mytmpk:{
-					template:"<h2>transmit parent data to child component----{{ parentdata }}</h2>",
-					props:['parentdata']
-				}
-
-			}
-
-		})
-	</script>
-</body>
+  <head>
+    <title>brand</title>
+    <script type="text/javascript" src="./vue.js"></script>
+    <style type="text/css"></style>
+  </head>
+  <body>
+    <div id="app">
+      <myTMP @parentmethod="show"></myTMP>
+      <mytmpk :parentdata="msg"></mytmpk>
+      <div @click="show">{{msg2}}</div>
+    </div>
+    <template id="mytmp"><h2 @click="executepm">{{word}}</h2></template>
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          flag: false,
+          msg: "this is parent data",
+          msg2: "this is parent data1",
+        },
+        methods: {
+          show() {
+            this.msg2 = 20;
+            console.log("this is parent method");
+          },
+        },
+        filters: {},
+        directives: {},
+        updated() {
+          console.log(11111111111);
+        },
+        components: {
+          mytmp: {
+            template: "#mytmp",
+            data() {
+              return {
+                word: "this is a child component",
+              };
+            },
+            methods: {
+              executepm() {
+                this.word = "22222222222";
+                //this.$emit('parentmethod')
+              },
+            },
+            updated() {
+              console.log(111111111112222);
+            },
+          },
+          mytmpk: {
+            template: "<h2>transmit parent data to child component----{{ parentdata }}</h2>",
+            props: ["parentdata"],
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
