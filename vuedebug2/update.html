@@ -8,21 +8,25 @@
     <script src="./vue.js"></script>
   </head>
   <body>
-    <div id="app"><p>{{name}}</p></div>
+    <div id="app"><p>{{info.age}}</p></div>
     <script>
       const vm = new Vue({
         data: {
           name: "weidehai",
+          info:{
+            age:20
+          }
         },
         created() {
-          setTimeout(this.changeText, 10000);
+          setTimeout(this.changeText, 1000);
         },
         mounted() {
           console.log(111);
         },
         methods: {
           changeText() {
-            this.name = "weidejian";
+            // this.name = "weidejian";
+            this.info={age:30}
           },
         },
       }).$mount("#app");
