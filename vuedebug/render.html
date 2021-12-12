@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="./libs/loglevel.js"></script>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      Vue.component("weidehai", {
+        data() {
+          return {
+            name: "weidehai",
+          };
+        },
+        props: {
+          age: Number,
+        },
+        template: `<div>{{name}}-{{age}}</div>`,
+      });
+      var vm = new Vue({
+        data: {
+          visible: true,
+          desc: {
+            name: "hello world",
+          },
+        },
+        render(h) {
+          return h("weidehai",{props:{age:20}});
+        },
+      }).$mount("#app");
+    </script>
+  </body>
+</html>

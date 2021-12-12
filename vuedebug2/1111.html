@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container{
+      padding:5px;
+      display:flex;
+    }
+    .container .left{
+      width:100px;
+      height: 100px;
+      border: 1px solid black;
+    }
+    .container .right{
+      flex:1;
+    }
+    .container .right p{
+      color:red;
+    }
+    .container .right .footer{
+      display:flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left"></div>
+    <div class="right">
+      <h1>这是标题</h1>
+      <p>这是简介这是简介这是简介这是简介这是简介</p>
+      <div class="footer">
+        <span>test</span>
+        <span>hello</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
