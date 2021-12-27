@@ -9,17 +9,20 @@
 <body>
 	<div id="app">
     <button @click="displayToggle">display toggle</button><div v-if='show'>v-if源码分析</div>
+    <input type="radio" :checked="radioSelected">
 	</div>
 
 	<script type="text/javascript">
 	  let vm = new Vue({
 			data:{
-				show:true
+				show:true,
+        radioSelected:true
 			},
 			methods:{
 				displayToggle(){
           console.log(this)
 					this.show = !this.show
+          this.radioSelected = false
 				}
       }
 		}).$mount("#app")
