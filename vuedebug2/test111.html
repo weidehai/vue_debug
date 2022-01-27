@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<body>
+  <button>11111111</button>
+  <button class="btn">delete</button>
+  <script>
+      function vm(node){
+        this.node = node
+      }
+
+      function ivnode(elm){
+        this.elm  = elm
+      }
+
+
+      let vvm = new vm(new ivnode(document.querySelector('button')))
+      function add(){
+        let ivd = vvm.node
+        let elm = ivd.elm
+        vvm.node.elm.addEventListener('click',() => {
+          console.log(ivd)
+          console.log(elm)
+        })
+      }
+      add()
+      document.querySelector('.btn').addEventListener('click',() =>{
+        vvm.node.elm.remove()
+        vvm.node = null
+
+      })
+  </script>
+</body>
+</html>

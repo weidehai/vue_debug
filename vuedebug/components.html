@@ -33,6 +33,11 @@
         components: {
           helloworld: {
             props: ["msg"],
+            components:{
+              childTest:{
+                template: `<div>test</div>`,
+              }
+            },
             methods: {
               //TODO:研究新建vue实例的时候，option中的method是如何处理的，$emit方法是如何调用的（涉及到观察者模式），是否有闭包导致内存泄漏的可能
               onClose() {
@@ -42,7 +47,7 @@
             created() {
               console.log(this.msg);
             },
-            template: `<div><div class="hello" v-bind="$attrs"><h1>{{ msg }}</h1></div><button @click="onClose">子组件调用隐藏</button></div>`,
+            template: `<div><Child-test /><div class="hello" v-bind="$attrs"><h1>{{ msg }}</h1></div><button @click="onClose">子组件调用隐藏</button></div>`,
           },
         },
 
